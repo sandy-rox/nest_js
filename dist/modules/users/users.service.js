@@ -25,7 +25,6 @@ let UserService = class UserService {
     }
     async create(userData) {
         const existingUser = await this.findOneByEmail(userData.email);
-        console.log(existingUser);
         if (existingUser) {
             throw new common_1.BadRequestException('User already exists.');
         }
@@ -39,7 +38,6 @@ let UserService = class UserService {
                 ...userData,
                 roles: [viewerRole],
             });
-            console.log(user);
             await this.userRepository.save(user);
             return user;
         }
@@ -61,11 +59,9 @@ let UserService = class UserService {
         return this.userRepository.save(user);
     }
     async findOneByEmail(email) {
-        const user = await this.userRepository.findOne({
+        return await this.userRepository.findOne({
             where: { email: email.toLowerCase() },
         });
-        console.log(user);
-        return user;
     }
     async findOneById(userId) {
         return await this.userRepository.findOne({

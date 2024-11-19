@@ -8,23 +8,22 @@ import { Role } from './entities/role.entity';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>, // Injecting the User repository
     @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
+    private readonly roleRepository: Repository<Role>, // Injecting the Role repository
   ) {}
 
+  // Create a new user
   async create(userData: Partial<User>): Promise<User> {
     // Check if a user with the same email already exists
     const existingUser = await this.findOneByEmail(userData.email);
-    console.log(existingUser);
     if (existingUser) {
       throw new BadRequestException('User already exists.');
     }
 
     try {
-      // Ensure 'viewer' role exists
+      // Ensure the 'viewer' role exists or create it
       let viewerRole = await this.roleRepository.findOne({ where: { name: 'viewer' } });
-
       if (!viewerRole) {
         viewerRole = this.roleRepository.create({ name: 'viewer' });
         await this.roleRepository.save(viewerRole);
@@ -34,8 +33,7 @@ export class UserService {
         ...userData,
         roles: [viewerRole], // Assigning default 'viewer' role
       });
-      console.log(user);
-      await this.userRepository.save(user);
+      await this.userRepository.save(user); // Save the user
       return user;
     } catch (error) {
       console.error(error);
@@ -43,6 +41,7 @@ export class UserService {
     }
   }
 
+  // Update a user's role by userId
   async updateUserRole(userId: number, roleName: string): Promise<User> {
     const user = await this.findOneById(userId);
     if (!user) {
@@ -51,31 +50,29 @@ export class UserService {
 
     const role = await this.roleRepository.findOne({ where: { name: roleName } });
     if (!role) {
-      // Optionally create a role if it doesn't exist
-      // role = this.roleRepository.create({ name: roleName });
-      // await this.roleRepository.save(role);
       throw new NotFoundException('Role not found.');
     }
 
-    user.roles = [role]; // Optionally allow multiple roles
-    return this.userRepository.save(user);
+    user.roles = [role]; // Optionally, you can assign multiple roles here
+    return this.userRepository.save(user); // Save the updated user
   }
 
+  // Find a user by email
   async findOneByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: { email: email.toLowerCase() },
+    return await this.userRepository.findOne({
+      where: { email: email.toLowerCase() }, // Normalize email to lowercase
     });
-    console.log(user);
-    return user;
   }
 
+  // Find a user by ID
   async findOneById(userId: number): Promise<User> {
     return await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['roles'], // Include the related 'roles' information
+      relations: ['roles'], // Include related roles information
     });
   }
 
+  // Find all users
   async findAll(): Promise<User[] | null> {
     return await this.userRepository.find();
   }

@@ -39,9 +39,8 @@ let TokenService = class TokenService {
         const token = await this.tokenRepository.findOne({
             where: { refreshToken },
         });
-        if (!token) {
+        if (!token)
             return undefined;
-        }
         const currentTime = new Date();
         if (token.refreshTokenExpiresAt < currentTime) {
             await this.tokenRepository.delete({ refreshToken });
@@ -53,9 +52,7 @@ let TokenService = class TokenService {
         await this.tokenRepository
             .createQueryBuilder()
             .delete()
-            .where('refreshTokenExpiresAt <= :now', {
-            now: new Date(),
-        })
+            .where('refreshTokenExpiresAt <= :now', { now: new Date() })
             .execute();
     }
     createAccessToken({ userId, roles }) {

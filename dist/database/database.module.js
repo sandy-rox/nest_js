@@ -6,19 +6,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DatabaseModule = exports.DatabaseDialect = void 0;
+exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
-var DatabaseDialect;
-(function (DatabaseDialect) {
-    DatabaseDialect["POSTGRES"] = "postgres";
-    DatabaseDialect["MYSQL"] = "mysql";
-    DatabaseDialect["SQLITE"] = "sqlite";
-    DatabaseDialect["MARIADB"] = "mariadb";
-    DatabaseDialect["ORACLE"] = "oracle";
-    DatabaseDialect["MSSQL"] = "mssql";
-})(DatabaseDialect || (exports.DatabaseDialect = DatabaseDialect = {}));
 let DatabaseModule = class DatabaseModule {
 };
 exports.DatabaseModule = DatabaseModule;

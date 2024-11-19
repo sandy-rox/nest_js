@@ -1,5 +1,6 @@
 import { User } from 'src/modules/users/entities/user.entity';
 export declare class IngestionService {
+    private readonly logger;
     triggerIngestion(fileId: number, user: User): Promise<{
         message: string;
         userId: number;

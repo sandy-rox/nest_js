@@ -21,7 +21,10 @@ exports.SeederModule = SeederModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forFeature([role_entity_1.Role, user_entity_1.User]),
         ],
-        providers: [seeder_service_1.SeederService, seeder_command_1.SeederCommand],
+        providers: [
+            seeder_service_1.SeederService,
+            seeder_command_1.SeederCommand,
+        ],
     })
 ], SeederModule);
 //# sourceMappingURL=seeder.module.js.map

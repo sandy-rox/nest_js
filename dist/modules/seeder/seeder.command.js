@@ -11,13 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SeederCommand = void 0;
 const nestjs_console_1 = require("nestjs-console");
+const common_1 = require("@nestjs/common");
 class SeederCommand {
     constructor(seederService) {
         this.seederService = seederService;
+        this.logger = new common_1.Logger(SeederCommand.name);
     }
     async run() {
-        await this.seederService.seed();
-        console.log('Database seeding complete!');
+        try {
+            this.logger.log('Seeding process started...');
+            await this.seederService.seed();
+            this.logger.log('Database seeding complete!');
+        }
+        catch (error) {
+            this.logger.error('Error during seeding process', error.stack);
+        }
     }
 }
 exports.SeederCommand = SeederCommand;

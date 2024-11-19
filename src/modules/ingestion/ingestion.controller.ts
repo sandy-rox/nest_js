@@ -5,11 +5,11 @@ import { RolesGuard } from '../auth/guard/role.guard'; // Import the role guard
 import { TriggerIngestionDto } from './dto/trigger-ingestion.dto';
 
 @Controller('ingestion')
-@UseGuards(RolesGuard) // Apply guard at the controller level
 export class IngestionController {
   constructor(private readonly ingestionService: IngestionService) {}
 
   @Post('trigger')
+  @UseGuards(RolesGuard) // Apply guard at the method level
   @Roles('viewer', 'editor', 'admin') // Both users and admins can trigger
   async triggerIngestion(@Body() triggerDto: TriggerIngestionDto, @Req() req) {
     const { fileId } = triggerDto;
@@ -17,12 +17,14 @@ export class IngestionController {
   }
 
   @Get(':id/status')
+  @UseGuards(RolesGuard)
   @Roles('viewer', 'editor', 'admin') // Both users and admins can check status
   async getIngestionStatus(@Param('id') id: string, @Req() req) {
     return this.ingestionService.getIngestionStatus(id, req.user);
   }
 
   @Post(':id/cancel')
+  @UseGuards(RolesGuard)
   @Roles('admin') // Only admins can cancel ingestion
   async cancelIngestion(@Param('id') id: string, @Req() req) {
     return this.ingestionService.cancelIngestion(id, req.user);

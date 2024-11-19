@@ -23,7 +23,11 @@ let AuthModule = class AuthModule {
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([token_entity_1.Token, user_entity_1.User, role_entity_1.Role]), users_module_1.UserModule, token_module_1.TokenModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([token_entity_1.Token, user_entity_1.User, role_entity_1.Role]),
+            users_module_1.UserModule,
+            token_module_1.TokenModule,
+        ],
         providers: [auth_service_1.AuthService, token_service_1.TokenService, users_service_1.UserService],
         controllers: [auth_controller_1.AuthController],
         exports: [auth_service_1.AuthService, token_service_1.TokenService, users_service_1.UserService],

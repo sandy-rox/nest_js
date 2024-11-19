@@ -36,6 +36,7 @@ let IngestionController = class IngestionController {
 exports.IngestionController = IngestionController;
 __decorate([
     (0, common_1.Post)('trigger'),
+    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('viewer', 'editor', 'admin'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
@@ -45,6 +46,7 @@ __decorate([
 ], IngestionController.prototype, "triggerIngestion", null);
 __decorate([
     (0, common_1.Get)(':id/status'),
+    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('viewer', 'editor', 'admin'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
@@ -54,6 +56,7 @@ __decorate([
 ], IngestionController.prototype, "getIngestionStatus", null);
 __decorate([
     (0, common_1.Post)(':id/cancel'),
+    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('admin'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
@@ -63,7 +66,6 @@ __decorate([
 ], IngestionController.prototype, "cancelIngestion", null);
 exports.IngestionController = IngestionController = __decorate([
     (0, common_1.Controller)('ingestion'),
-    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     __metadata("design:paramtypes", [ingestion_service_1.IngestionService])
 ], IngestionController);
 //# sourceMappingURL=ingestion.controller.js.map

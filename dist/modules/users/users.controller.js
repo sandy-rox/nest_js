@@ -31,7 +31,7 @@ let UserController = class UserController {
         }
         catch (error) {
             console.log(error);
-            throw new common_1.NotFoundException(`Cannot find products`);
+            throw new common_1.NotFoundException(`Cannot find users`);
         }
     }
     async findUserById(userId) {

@@ -7,42 +7,43 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
-} from 'typeorm';
-import { Token } from '../../token/entities/token.entity';
-import { Document } from '../../document/entities/document.entity';
-import { Role } from './role.entity';
+} from 'typeorm'; // Import decorators and types from TypeORM
+import { Token } from '../../token/entities/token.entity'; // Import the Token entity for relationship
+import { Document } from '../../document/entities/document.entity'; // Import the Document entity for relationship
+import { Role } from './role.entity'; // Import the Role entity for the many-to-many relationship
 
-@Entity({ name: 'user' })
+@Entity({ name: 'user' }) // Marks this class as a 'user' entity in the database
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn() // Automatically generates a primary key for the user
   id: number;
 
-  @Column({ name: 'first_name', nullable: false }) // Ensure first name is not null
+  @Column({ name: 'first_name', nullable: false }) // Ensures first name is required (non-nullable)
   firstName: string;
 
-  @Column({ name: 'last_name', nullable: false }) // Ensure last name is not null
+  @Column({ name: 'last_name', nullable: false }) // Ensures last name is required (non-nullable)
   lastName: string;
 
-  @Column({ unique: true, length: 255, nullable: false }) // Ensure email is not null and unique
+  @Column({ unique: true, length: 255, nullable: false }) // Ensures email is unique and required (non-nullable)
   email: string;
 
-  @ManyToMany(() => Role, (role) => role.users, { nullable: false })
-  @JoinTable()
+  @ManyToMany(() => Role, (role) => role.users, { nullable: false }) // Many-to-many relationship with Role entity
+  @JoinTable() // Creates a join table for the many-to-many relationship
   roles: Role[];
 
-  @CreateDateColumn({ name: 'created_at', nullable: false }) // Ensure createdAt is not null
+  @CreateDateColumn({ name: 'created_at', nullable: false }) // Automatically sets the creation timestamp, non-nullable
   createdAt: Date;
 
-  @CreateDateColumn({ name: 'updated_at', nullable: false }) // Ensure updatedAt is not null
+  @CreateDateColumn({ name: 'updated_at', nullable: false }) // Automatically sets the updated timestamp, non-nullable
   updatedAt: Date;
 
-  @Column({ nullable: false }) // Ensure password is not null
+  @Column({ nullable: false }) // Ensures password is required (non-nullable)
   password: string;
 
-  // Establish a one-to-one relationship with Token
-  @OneToOne(() => Token, (token) => token.user, { nullable: true }) // Token can be nullable
+  // Establishes a one-to-one relationship with the Token entity
+  @OneToOne(() => Token, (token) => token.user, { nullable: true }) // Token can be nullable (optional relationship)
   token: Token;
 
+  // Establishes a one-to-many relationship with the Document entity
   @OneToMany(() => Document, (document) => document.user)
   documents: Document[];
 }
